@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FluentAssertions.Extensions;
 using NetworkUtility.Ping;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace NetworkUtility.Tests.PingTest
         public void NetworkService_SendPing_ReturnString()
         {
             //Arrange - varibales, classes, mocks            
-         
+
 
             //Act
             var result = _pingService.SendPing();
@@ -29,7 +30,7 @@ namespace NetworkUtility.Tests.PingTest
             result.Should().NotBeNullOrWhiteSpace();
             result.Should().Be("Success: Ping Sent!");
             result.Should().Contain("Success", Exactly.Once());
-            
+
         }
 
         [Theory]
@@ -38,7 +39,7 @@ namespace NetworkUtility.Tests.PingTest
         public void NetworkService_PingTimeout_ReturnInt(int a, int b, int expected)
         {
             //Arrange
-            
+
 
             //Act
             var result = _pingService.PingTimeout(a, b);
@@ -48,5 +49,22 @@ namespace NetworkUtility.Tests.PingTest
             result.Should().BeGreaterThanOrEqualTo(2);
             result.Should().NotBeInRange(a - 1000, 0);
         }
-    
-}
+
+        [Fact]
+        public void NetworkService_LastPingDate_ReturnString()
+        {
+            //Arrange - varibales, classes, mocks            
+
+
+            //Act
+            var result = _pingService.LastPingDate();
+
+            //Assert
+            result.Should().BeAfter(1.January(2010));
+            result.Should().BeBefore(1.January(2030));
+            
+
+        }
+    }
+
+    }
