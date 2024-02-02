@@ -63,7 +63,7 @@ namespace NetworkUtility.Tests.PingTest
             //Assert
             result.Should().BeAfter(1.January(2010));
             result.Should().BeBefore(1.January(2030));
-            
+
 
         }
 
@@ -83,6 +83,24 @@ namespace NetworkUtility.Tests.PingTest
             result.Should().BeOfType<PingOptions>();
             result.Should().BeEquivalentTo(expected);
             result.Ttl.Should().Be(1);
+        }
+
+        [Fact]
+        public void NetworkService_MostRecentPings_ReturnsObject()
+        {
+            //Arrange
+            var expected = new PingOptions()
+            {
+                DontFragment = true,
+                Ttl = 1
+            };
+            //Act
+            var result = _pingService.MostRecentPings();
+
+            //Assert WARNING: 'Be' careful
+            //result.Should().BeOfType<IEnumerable<PingOptions>>();
+            result.Should().ContainEquivalentOf(expected);
+            result.Should().Contain(x => x.DontFragment == true);
         }
     }
 
